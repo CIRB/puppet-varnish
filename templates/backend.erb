@@ -1,0 +1,1 @@
+backend <%= name %> {.host = "<%= host %>";.port = "<%= port %>";.first_byte_timeout = <%= first_byte_timeout %>;.probe = {.url = "<%=probe['url']%>";.interval = <%=probe['interval']%>;.timeout = <%=probe['timeout']%>;.window = <%=probe['window']%>;.threshold = <%=probe['threshold']%>;}}

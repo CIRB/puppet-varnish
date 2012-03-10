@@ -1,0 +1,1 @@
+director <%= name %> round-robin {<% backends.each do |backend| -%>{ .backend = <%= backend %>; }<% end -%>}
