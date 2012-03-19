@@ -1,6 +1,6 @@
 define varnish::backend (
   $port,
-  $host = $::ipaddress_eth0,
+  $host,
   $first_byte_timeout = '300s',
   $probe = '')
 {
