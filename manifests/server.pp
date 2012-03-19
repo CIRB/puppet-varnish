@@ -1,4 +1,4 @@
-class varnish::server ($vclfile='default.vcl', $address='127.0.0.1', $port=5000,
+class varnish::server ($vclfile='default.vcl', $ipaddress='127.0.0.1', $port=5000,
             $telnet_port='6182',
             $storage_size='1G') {
 
