@@ -1,7 +1,7 @@
 define varnish::director ( $backends ) {
-        tool::line {
+        file_line {
         "varnish_directory_$name":
-            file    => '/etc/varnish/directors.vcl',
+            path    => '/etc/varnish/directors.vcl',
             line    => template('varnish/director.erb'),
             require => File['/etc/varnish/directors.vcl']
         }

@@ -6,7 +6,7 @@ define varnish::backend (
 {
 
     if $probe != '' {
-      tool::line {
+      file_line {
         "varnish_backend_$name$host$port":
             file    => '/etc/varnish/backends.vcl',
             line    => template('varnish/backend.erb'),
@@ -14,7 +14,7 @@ define varnish::backend (
             require => File['/etc/varnish/backends.vcl']
       }
     } else {
-      tool::line {
+      file_line {
         "varnish_backend_$name$host$port":
             file    => '/etc/varnish/backends.vcl',
             line    => template('varnish/backend_simple.erb'),
