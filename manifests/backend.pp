@@ -8,16 +8,18 @@ define varnish::backend (
     if $probe != '' {
       tool::line {
         "varnish_backend_$name$host$port":
-            file   => '/etc/varnish/backends.vcl',
-            line   => template('varnish/backend.erb'),
-            notify => Service['varnish']
+            file    => '/etc/varnish/backends.vcl',
+            line    => template('varnish/backend.erb'),
+            notify  => Service['varnish'],
+            require => File['/etc/varnish/backends.vcl']
       }
     } else {
       tool::line {
         "varnish_backend_$name$host$port":
-            file   => '/etc/varnish/backends.vcl',
-            line   => template('varnish/backend_simple.erb'),
-            notify => Service['varnish']
+            file    => '/etc/varnish/backends.vcl',
+            line    => template('varnish/backend_simple.erb'),
+            notify  => Service['varnish'],
+            require => File['/etc/varnish/backends.vcl']
       }
     }
 

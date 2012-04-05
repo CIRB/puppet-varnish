@@ -55,6 +55,23 @@ class varnish::server ($vclfile='default.vcl', $ipaddress='127.0.0.1', $port=500
       replace => true
   }
 
+  file {
+    '/etc/varnish/directors.vcl':
+      ensure  => 'present',
+      replace => false,
+      content => '',
+      require => Package['varnish']
+  }
+
+  file {
+    '/etc/varnish/backends.vcl':
+      ensure  => 'present',
+      replace => false,
+      content => '',
+      require => Package['varnish']
+  }
+
+
   Varnish::Director <<||>> {
     notify => Service['varnish']
   }
