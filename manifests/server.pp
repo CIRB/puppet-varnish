@@ -72,16 +72,16 @@ class varnish::server ($vclfile='default.vcl', $ipaddress='127.0.0.1', $port=500
   }
 
 
-  Varnish::Director <<||>> {
-    notify => Service['varnish']
-  }
+  #Varnish::Director <<||>> {
+  #  notify => Service['varnish']
+  #}
 
-  Varnish::Backend <<||>> {
-    notify => Service['varnish']
-  }
+  #Varnish::Backend <<||>> {
+  #  notify => Service['varnish']
+  #}
 
-  Varnish::Vclconfig <<||>> {
-    notify => Service['varnish']
-  }
+  #Varnish::Vclconfig <<||>> {
+  #  notify => Service['varnish']
+  #}
 
 }
