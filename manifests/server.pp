@@ -70,6 +70,14 @@ class varnish::server ($vclfile='default.vcl', $ipaddress='127.0.0.1', $port=500
       content => '',
       require => Package['varnish']
   }
+  
+  file {
+    '/etc/varnish/sites.vcl':
+      ensure  => 'present',
+      replace => false,
+      content => '',
+      require => Package['varnish']
+  }
 
 
   #Varnish::Director <<||>> {
