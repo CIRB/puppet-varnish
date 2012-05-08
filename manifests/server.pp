@@ -91,5 +91,4 @@ class varnish::server ($vclfile='default.vcl', $ipaddress='127.0.0.1', $port=500
   #Varnish::Vclconfig <<||>> {
   #  notify => Service['varnish']
   #}
-
 }
