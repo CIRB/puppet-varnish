@@ -4,7 +4,8 @@ define varnish::vclconfig ($backend, $vcl_config='default', $aliases=[]) {
         "/etc/varnish/sites/$name.vcl":
             ensure  => 'present',
             content => template("varnish/${vcl_config}_vcl_config.erb"),
-            require => File['/etc/varnish/sites']
+            notify  => Service['varnish'],
+            require => [Package['varnish'], File['/etc/varnish/sites']]
     }
 
     file_line {
@@ -12,6 +13,7 @@ define varnish::vclconfig ($backend, $vcl_config='default', $aliases=[]) {
             ensure  => present,
             path    => '/etc/varnish/sites.vcl',
             line    => "include \"/etc/varnish/sites/$name.vcl\";",
+            notify  => Service['varnish'],
             require => Package['varnish']
     }
 
