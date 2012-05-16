@@ -8,6 +8,7 @@ define varnish::backend (
     if $probe != '' {
       file_line {
         "varnish_backend_$name$host$port":
+            ensure  => present,
             path    => '/etc/varnish/backends.vcl',
             line    => template('varnish/backend.erb'),
             notify  => Service['varnish'],
@@ -16,6 +17,7 @@ define varnish::backend (
     } else {
       file_line {
         "varnish_backend_$name$host$port":
+            ensure  => present,
             path    => '/etc/varnish/backends.vcl',
             line    => template('varnish/backend_simple.erb'),
             notify  => Service['varnish'],

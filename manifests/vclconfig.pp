@@ -9,6 +9,7 @@ define varnish::vclconfig ($backend, $vcl_config='default', $aliases=[]) {
 
     file_line {
         "${name}_varnish_vcl_config":
+            ensure  => present,
             path    => '/etc/varnish/sites.vcl',
             line    => "include \"/etc/varnish/sites/$name.vcl\";",
             require => Package['varnish']
