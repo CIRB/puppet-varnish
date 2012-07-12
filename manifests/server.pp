@@ -30,6 +30,12 @@ class varnish::server ($vclfile='default.vcl', $ipaddress='127.0.0.1', $port=500
       content => template('varnish/varnish.erb')
   }
 
+  file {
+    '/etc/varnish/secret':
+      ensure  => 'present',
+      content => 'my-dummy-password'
+  }
+
   augeas {
     'varnish':
       context => '/augeas/files/etc/sysconfig/varnish',
