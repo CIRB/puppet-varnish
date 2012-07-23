@@ -2,18 +2,19 @@ class varnish::server ($vclfile='default.vcl', $ipaddress='127.0.0.1', $port=500
             $telnet_port='6182',
             $storage_size='1G') {
 
-  yumrepo {
-    'varnish':
-      descr    => 'varnish repository',
-      baseurl  => 'http://repo.varnish-cache.org/redhat/el5/x86_64/',
-      enabled  => 1,
-      gpgcheck => 0,
-  }
+  #yumrepo {
+  #  'varnish':
+  #    descr    => 'varnish repository',
+  #    baseurl  => 'http://repo.varnish-cache.org/redhat/el5/x86_64/',
+  #    enabled  => 1,
+  #    gpgcheck => 0,
+  #}
 
-  package {
-    'varnish':
-      ensure => 'installed'
-  }
+  #package {
+  #  'varnish':
+  #    ensure  => 'installed',
+  #    require => Yumrepo['varnish']
+  #}
 
   service {
     'varnish':
@@ -27,13 +28,15 @@ class varnish::server ($vclfile='default.vcl', $ipaddress='127.0.0.1', $port=500
   file {
     '/etc/sysconfig/varnish':
       ensure  => 'present',
-      content => template('varnish/varnish.erb')
+      content => template('varnish/varnish.erb'),
+      require => Package['varnish']
   }
 
   file {
     '/etc/varnish/secret':
       ensure  => 'present',
-      content => 'my-dummy-password'
+      content => 'my-dummy-password',
+      require => Package['varnish']
   }
 
   augeas {
