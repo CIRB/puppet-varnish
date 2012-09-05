@@ -64,6 +64,11 @@ class varnish::server ($vclfile='default.vcl', $ipaddress='0.0.0.0', $port=5000,
       replace => true
   }
 
+
+  file {
+    '/etc/varnish':
+      ensure => 'directory'
+  }
   file {
     '/etc/varnish/directors.vcl':
       ensure  => 'present',
@@ -87,6 +92,7 @@ class varnish::server ($vclfile='default.vcl', $ipaddress='0.0.0.0', $port=5000,
       content => '',
       before  => Package['varnish']
   }
+
 
   #Varnish::Director <<||>> {
   #  notify => Service['varnish']
