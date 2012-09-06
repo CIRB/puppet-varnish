@@ -59,21 +59,23 @@ class varnish::server ($vclfile='default.vcl', $ipaddress='0.0.0.0', $port=5000,
     "/etc/varnish/$vclfile":
       ensure  => 'present',
       source  => 'puppet:///varnish/varnish.vcl',
+      require => File['/etc/varnish'],
       before  => Package['varnish'],
       notify  => Service['varnish'],
       replace => true
   }
 
-
   file {
     '/etc/varnish':
       ensure => 'directory'
   }
+
   file {
     '/etc/varnish/directors.vcl':
       ensure  => 'present',
       replace => false,
       content => '',
+      require => File['/etc/varnish'],
       before  => Package['varnish']
   }
 
@@ -82,6 +84,7 @@ class varnish::server ($vclfile='default.vcl', $ipaddress='0.0.0.0', $port=5000,
       ensure  => 'present',
       replace => false,
       content => '',
+      require => File['/etc/varnish'],
       before  => Package['varnish']
   }
 
@@ -90,9 +93,9 @@ class varnish::server ($vclfile='default.vcl', $ipaddress='0.0.0.0', $port=5000,
       ensure  => 'present',
       replace => false,
       content => '',
+      require => File['/etc/varnish'],
       before  => Package['varnish']
   }
-
 
   #Varnish::Director <<||>> {
   #  notify => Service['varnish']
