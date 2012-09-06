@@ -88,7 +88,6 @@ class varnish::server ($vclfile='default.vcl', $ipaddress='0.0.0.0', $port=5000,
       before  => Package['varnish']
   }
 
-
   #Varnish::Director <<||>> {
   #  notify => Service['varnish']
   #}
