@@ -23,7 +23,6 @@ class varnish::init {
 
     package {'varnish':
       ensure  => $version,
-      require => Yumrepo['varnish-cirb']
     }
 
   }
