@@ -21,13 +21,6 @@ class varnish::init {
       gpgcheck => 0,
     }
 
-    yumrepo {'varnish-cirb':
-      descr    => 'varnish repository',
-      baseurl  => 'http://repo.irisnet.be/cirb/6/x86_64/',
-      enabled  => 1,
-      gpgcheck => 0,
-    }
-
     package {'varnish':
       ensure  => $version,
       require => Yumrepo['varnish-cirb']
