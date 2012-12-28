@@ -221,8 +221,8 @@ sub vcl_error {
                 </td>
                 <td class="mytext">
                     <h2>Ce site est sous maintenance</h2>
-                    <p>Le site auquel vous tentez d'acc&eacute;der est indisponible en raison d'une mise à jour. Nous mettons tout en œuvre pour le r&eacute;tablir dans les meilleurs d&eacute;lais.</p>
-                    <p>Si le problème persiste ou pour obtenir plus d'informations, n’h&eacute;sitez pas à contacter Iris Line : 02 801 00 00 ou irisline@cirb.irisnet.be.</p>
+                    <p>Le site auquel vous tentez d'acc&eacute;der est indisponible en raison d'une mise &agrave; jour. Nous mettons tout en œuvre pour le r&eacute;tablir dans les meilleurs d&eacute;lais.</p>
+                    <p>Si le probl&egrave;me persiste ou pour obtenir plus d'informations, nr'h&eacute;sitez pas &agrave; contacter Iris Line : 02 801 00 00 ou irisline@cirb.irisnet.be.</p>
                     <p>Nous vous pr&eacute;sentons nos excuses pour cet inconv&eacute;nient.</p>
                     <p>Le Centre d'Informatique pour la R&eacute;gion Bruxelloise</p>
                 </td>
@@ -237,7 +237,7 @@ sub vcl_error {
         </tbody></table>
         </div>
         <div class="Footer">
-            Varnish error: "} obj.status " " obj.response {"
+            Varnish error: "} obj.status " " obj.response {",
             Host: <script type="text/javascript" language="javascript">document.write( window.location.href );</script>
         </div>
     </div>
