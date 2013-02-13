@@ -58,7 +58,7 @@ define varnish::server ($vclfile='default.vcl', $ipaddress='0.0.0.0', $port=5000
   file {
     "/etc/varnish/$vclfile":
       ensure  => 'present',
-      source  => 'puppet:///varnish/varnish.vcl',
+      source  => 'puppet:///modules/varnish/varnish.vcl',
       require => File['/etc/varnish'],
       before  => Package['varnish'],
       notify  => Service['varnish'],
