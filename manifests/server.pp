@@ -1,6 +1,28 @@
-define varnish::server ($vclfile='default.vcl', $ipaddress='0.0.0.0', $port=5000,
-            $telnet_port='6182',
-            $storage_size='1G') {
+# == Define: server
+#
+#  Create a varnish server
+#
+# === Parameters
+#
+# [*vclfile*]
+#   Varnish base config
+#
+# [*ipaddress*]
+#   Varnish ip address to bind
+#
+# [*port*]
+#   Varnish port to listen
+#
+# [*telnet_port*]
+#   Varnish telnet port to listen
+#
+# [*storage_size*]
+#   Varnish cache size
+#
+define varnish::server ($vclfile='default.vcl', $ipaddress='0.0.0.0',
+  $port=5000,
+  $telnet_port='6182',
+  $storage_size='1G') {
 
   #yumrepo {
   #  'varnish':
@@ -56,7 +78,7 @@ define varnish::server ($vclfile='default.vcl', $ipaddress='0.0.0.0', $port=5000
   }
 
   file {
-    "/etc/varnish/$vclfile":
+    "/etc/varnish/${vclfile}":
       ensure  => 'present',
       source  => 'puppet:///modules/varnish/varnish.vcl',
       require => File['/etc/varnish'],
