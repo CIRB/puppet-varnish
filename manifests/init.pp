@@ -1,3 +1,7 @@
+# == Define: init
+#
+#  Install varnish
+#
 class varnish::init {
 
   $version = hiera('varnish-version', 'installed')
