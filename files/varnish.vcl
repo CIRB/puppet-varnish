@@ -9,7 +9,7 @@ sub override {
     if (beresp.status == 200) {
     return(deliver);
     }
-    return(pass);
+    return(hit_for_pass);
 }
 
 acl purge {
@@ -25,7 +25,7 @@ sub vcl_recv {
             if (!client.ip ~ purge) {
                     error 405 "Not allowed.";
             }
-            purge_url(req.url);
+            ban_url(req.url);
         error 200 "Purged";
     }
     if (req.request != "GET" && req.request != "HEAD") {
@@ -37,23 +37,9 @@ sub vcl_recv {
 
 sub vcl_hit {
     if (req.request == "PURGE") {
-    set obj.ttl = 0s;
-    error 200 "Purged";
+        purge;
+        error 200 "Purged";
     }
-    if (!obj.cacheable) {
-        set obj.http.X-Varnish-Action = "return(pass) (not cacheable - hit)";
-        return(pass);
-    }
-    if (obj.http.Cache-Control ~ "(stale-while-revalidate|no-transform)") {
-        # This is a special cache. Don't serve to authenticated.
-        if (req.http.Cookie ~ "__ac=" || req.http.Authorization) {
-            set obj.http.X-Varnish-Action = "return(pass) (special not cacheable - hit)";
-                    return(pass);
-                }
-        }
-
-    set obj.http.X-Varnish-Action = "HIT (return(deliver) - from cache)";
-    return(deliver);
 }
 
 sub vcl_miss {
@@ -86,29 +72,31 @@ sub vcl_fetch {
     }
     if (req.http.Set-Cookie) {
             set req.http.X-Varnish-Action = "FETCH (return(pass) - response sets cookie)";
-            return(pass);
+            return(hit_for_pass);
     }
     if (req.http.Authorization && !req.http.Cache-Control ~ "public") {
             set req.http.X-Varnish-Action = "FETCH (return(pass) - authorized and no public cache control)";
-            return(pass);
+            return(hit_for_pass);
     }
     if (req.http.cookie ~ "__ac.*$") {
-        return(pass);
+        return(hit_for_pass);
     }
-    if (!beresp.cacheable) {
+    if (beresp.ttl <= 0s) {
     set req.http.X-Varnish-Action = "FETCH (return(pass) - not cacheable)";
-        return(pass);
+        return(hit_for_pass);
     }
     return(deliver);
 }
 
 sub vcl_error {
     set obj.http.Content-Type = "text/html; charset=utf-8";
-
     synthetic {"
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html><head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title qtlid="187136">503 Service Maintenance</title>
+    <title qtlid="187136">Service Maintenance</title>
     <meta http-equiv="revisit-after" name="Revisit-after" content="2 days">
     <meta http-equiv="robots" name="Robots" content="all">
     <meta name="robots" content="INDEX|FOLLOW">
@@ -237,7 +225,7 @@ sub vcl_error {
         </tbody></table>
         </div>
         <div class="Footer">
-            Varnish error: "} obj.status " " obj.response {",
+            Varnish error: "} + obj.status + {" "} + obj.response + {",
             Host: <script type="text/javascript" language="javascript">document.write( window.location.href );</script>
         </div>
     </div>
