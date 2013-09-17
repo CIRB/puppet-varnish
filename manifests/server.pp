@@ -101,12 +101,16 @@ define varnish::server ($vclfile='default.vcl', $ipaddress='0.0.0.0',
       before  => Package['varnish']
   }
 
+  file {'/etc/varnish/backends/':
+    ensure => directory,
+    purge  => true,
+  }
+
   file {
     '/etc/varnish/backends.vcl':
-      ensure  => 'present',
-      replace => false,
-      content => '',
-      require => File['/etc/varnish'],
+      ensure  => present,
+      content => 'include "/etc/varnish/backends/*.vcl"',
+      require => [File['/etc/varnish'], File['/etc/varnish/backends/']],
       before  => Package['varnish']
   }
 
