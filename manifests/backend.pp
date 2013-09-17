@@ -21,22 +21,19 @@ define varnish::backend (
   $first_byte_timeout = '300s',
   $probe = '')
 {
-
     if $probe != '' {
-      file_line {
-        "varnish_backend_${name}${host}${port}":
+      file {
+        "/etc/varnish/backends/${name}${host}${port}.vcl":
             ensure  => present,
-            path    => '/etc/varnish/backends.vcl',
-            line    => template('varnish/backend.erb'),
+            content => template('varnish/backend.erb'),
             notify  => Service['varnish'],
-            require => [File['/etc/varnish/backends.vcl']]
+            require => File['/etc/varnish/backends.vcl'],
       }
     } else {
-      file_line {
-        "varnish_backend_${name}${host}${port}":
+      file {
+        "/etc/varnish/backends/${name}${host}${port}":
             ensure  => present,
-            path    => '/etc/varnish/backends.vcl',
-            line    => template('varnish/backend_simple.erb'),
+            content => template('varnish/backend_simple.erb'),
             notify  => Service['varnish'],
             require => [File['/etc/varnish/backends.vcl']]
       }
