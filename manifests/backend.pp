@@ -26,14 +26,14 @@ define varnish::backend (
         target  => '/etc/varnish/backends.vcl',
         content => template('varnish/backend.erb'),
         notify  => Service['varnish'],
-        require => [File['/etc/varnish/backends.vcl']]
+        require => Concat['/etc/varnish/backends.vcl']
       }
     } else {
       concat::fragment {$title:
         target  => '/etc/varnish/backends.vcl',
         content => template('varnish/backend_simple.erb'),
         notify  => Service['varnish'],
-        require => [File['/etc/varnish/backends.vcl']]
+        require => Concat['/etc/varnish/backends.vcl']
       }
     }
 
