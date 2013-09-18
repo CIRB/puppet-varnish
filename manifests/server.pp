@@ -96,39 +96,25 @@ define varnish::server ($vclfile='default.vcl', $ipaddress='0.0.0.0',
       ensure => 'directory'
   }
 
-  file {
-    '/etc/varnish/directors.vcl':
-      ensure  => 'present',
-      replace => false,
-      content => '',
-      require => File['/etc/varnish'],
-      before  => Package['varnish']
+  concat {'/etc/varnish/directors.vcl':
+    owner   => root,
+    group   => root,
+    require => File['/etc/varnish'],
+    before  => Package['varnish']
   }
 
   concat {'/etc/varnish/backends.vcl':
     owner   => root,
     group   => root,
     require => File['/etc/varnish'],
+    before  => Package['varnish']
   }
 
-  file {
-    '/etc/varnish/sites.vcl':
-      ensure  => 'present',
-      replace => false,
-      content => '',
-      require => File['/etc/varnish'],
-      before  => Package['varnish']
+  concat {'/etc/varnish/sites.vcl':
+    owner   => root,
+    group   => root,
+    require => File['/etc/varnish'],
+    before  => Package['varnish']
   }
 
-  #Varnish::Director <<||>> {
-  #  notify => Service['varnish']
-  #}
-
-  #Varnish::Backend <<| |>> {
-  #  notify => Service['varnish']
-  #}
-
-  #Varnish::Vclconfig <<||>> {
-  #  notify => Service['varnish']
-  #}
 }
