@@ -120,9 +120,9 @@ define varnish::server ($vclfile='default.vcl', $ipaddress='0.0.0.0',
   #  notify => Service['varnish']
   #}
 
-  Varnish::Backend <<| |>> {
-    notify => Service['varnish']
-  }
+  #Varnish::Backend <<| |>> {
+  #  notify => Service['varnish']
+  #}
 
   #Varnish::Vclconfig <<||>> {
   #  notify => Service['varnish']
