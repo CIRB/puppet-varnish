@@ -100,21 +100,18 @@ define varnish::server ($vclfile='default.vcl', $ipaddress='0.0.0.0',
     owner   => root,
     group   => root,
     require => File['/etc/varnish'],
-    before  => Package['varnish']
   }
 
   concat {'/etc/varnish/backends.vcl':
     owner   => root,
     group   => root,
     require => File['/etc/varnish'],
-    before  => Package['varnish']
   }
 
   concat {'/etc/varnish/sites.vcl':
     owner   => root,
     group   => root,
     require => File['/etc/varnish'],
-    before  => Package['varnish']
   }
 
 }
