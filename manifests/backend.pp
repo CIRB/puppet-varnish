@@ -21,7 +21,6 @@ define varnish::backend (
   $first_byte_timeout = '300s',
   $probe = '')
 {
-
     if $probe != '' {
       concat::fragment {$title:
         target  => '/etc/varnish/backends.vcl',
