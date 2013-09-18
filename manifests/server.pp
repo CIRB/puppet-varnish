@@ -101,13 +101,10 @@ define varnish::server ($vclfile='default.vcl', $ipaddress='0.0.0.0',
       before  => Package['varnish']
   }
 
-  file {
-    '/etc/varnish/backends.vcl':
-      ensure  => 'present',
-      replace => false,
-      content => '',
-      require => File['/etc/varnish'],
-      before  => Package['varnish']
+  concat {'/etc/varnish/backends.vcl':
+    owner   => root,
+    group   => root,
+    require => File['/etc/varnish'],
   }
 
   file {
@@ -123,9 +120,9 @@ define varnish::server ($vclfile='default.vcl', $ipaddress='0.0.0.0',
   #  notify => Service['varnish']
   #}
 
-  #Varnish::Backend <<||>> {
-  #  notify => Service['varnish']
-  #}
+  Varnish::Backend <<| |>> {
+    notify => Service['varnish']
+  }
 
   #Varnish::Vclconfig <<||>> {
   #  notify => Service['varnish']
