@@ -44,7 +44,11 @@ define varnish::server ($vclfile='default.vcl', $ipaddress='0.0.0.0',
       enable     => true,
       hasrestart => true,
       hasstatus  => true,
-      require    => Package['varnish']
+      require    => [
+        Package['varnish'],
+        Concat['/etc/varnish/backends.vcl'],
+      ]
+
   }
 
   file {
@@ -122,7 +126,7 @@ define varnish::server ($vclfile='default.vcl', $ipaddress='0.0.0.0',
 
   #Varnish::Backend <<| |>> {
   #  notify => Service['varnish']
-  #}
+  }
 
   #Varnish::Vclconfig <<||>> {
   #  notify => Service['varnish']
